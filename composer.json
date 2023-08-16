@@ -1,6 +1,15 @@
 {
     "name": "senthilhep/hep-laravel-google-chat-log",
     "description": "Brings up the option for sending the logs to google chat [GSuite].",
+    "keywords": [
+        "google-chat",
+        "laravel"
+    ],
+    "homepage": "https://github.com/senthilhep/hep-laravel-google-chat-log",
+    "support": {
+        "issues": "https://github.com/senthilhep/hep-laravel-google-chat-log/issues",
+        "source": "https://github.com/senthilhep/hep-laravel-google-chat-log"
+    },
     "license": "MIT",
     "authors": [
         {
