@@ -27,6 +27,7 @@ Add the following code to the channels array in `config/logging.php` in your lar
         'debug' => env('LOG_GOOGLE_CHAT_NOTIFY_USER_ID_DEBUG'),
     ],
     'level' => 'warning',
+    'timezone' => env('LOG_GOOGLE_CHAT_TIMEZONE' , 'Asia/Kolkata'),
     'handler' => \Enigma\GoogleChatHandler::class,
 ],
 ```

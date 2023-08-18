@@ -2,6 +2,7 @@
 
 namespace Enigma;
 
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
@@ -61,6 +62,7 @@ class GoogleChatHandler extends AbstractProcessingHandler
     protected function getRequestBody(array $recordArr): array
     {
         $recordArr['formatted'] = substr($recordArr['formatted'], 34);
+        $timezone = (Config::get('logging.channels.google-chat.timezone') != null && !empty(Config::get('logging.channels.google-chat.timezone'))) ? Config::get('logging.channels.google-chat.timezone') : 'Asia/Kolkata';
         return [
             'text' => substr($this->getNotifiableText($recordArr['level'] ?? '') . $recordArr['formatted'], 0, 3800),
             'cardsV2' => [
@@ -78,7 +80,7 @@ class GoogleChatHandler extends AbstractProcessingHandler
                             'widgets' => [
                                 $this->cardWidget(ucwords(Config::get('app.env') ?? '') . ' [Env]', 'BOOKMARK'),
                                 $this->cardWidget($this->getLevelContent($recordArr), 'TICKET'),
-                                $this->cardWidget($recordArr['datetime'], 'CLOCK'),
+                                $this->cardWidget(Carbon::parse(strtotime($recordArr['datetime']))->timezone($timezone)->format('Y-m-d h:i: A'), 'CLOCK'),
                             ],
                         ],
                     ],
