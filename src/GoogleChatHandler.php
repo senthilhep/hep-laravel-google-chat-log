@@ -61,13 +61,13 @@ class GoogleChatHandler extends AbstractProcessingHandler
      */
     protected function getRequestBody(array $recordArr): array
     {
-        $recordArr['formatted'] = substr($recordArr['formatted'], 34);
+        //$recordArr['formatted'] = substr($recordArr['formatted'], 34);
         $timezone = (Config::get('logging.channels.google-chat.timezone') != null && !empty(Config::get('logging.channels.google-chat.timezone'))) ? Config::get('logging.channels.google-chat.timezone') : 'Asia/Kolkata';
         return [
-            'text' => substr($this->getNotifiableText($recordArr['level'] ?? '') . $recordArr['formatted'], 0, 3800),
+            'text' => $this->getNotifiableText($recordArr['level'] ?? ''),
             'cardsV2' => [
                 [
-                    'cardId' => 'info-card-id',
+                    'cardId' => 'text-card-id',
                     'card' => [
                         'header' => [
                             'title' => Config::get('app.name') . ": {$recordArr['level_name']}: {$recordArr['message']}",
@@ -75,7 +75,7 @@ class GoogleChatHandler extends AbstractProcessingHandler
                         ],
                         'sections' => [
                             'header' => 'Details',
-                            'collapsible' => true,
+                            'collapsible' => false,
                             'uncollapsibleWidgetsCount' => 1,
                             'widgets' => [
                                 $this->cardWidget(ucwords(Config::get('app.env') ?? '') . ' [Env]', 'BOOKMARK'),
@@ -108,7 +108,7 @@ class GoogleChatHandler extends AbstractProcessingHandler
             Logger::DEBUG => '#000000',
         ][$recordArr['level']] ?? '#ff1100';
 
-        return "<font color='{$color}'>{$recordArr['level_name']}</font>";
+        return "<font color='{$color}'>" . substr($recordArr['formatted'], 0, 38000) . "</font>";
     }
 
     /**
@@ -178,6 +178,7 @@ class GoogleChatHandler extends AbstractProcessingHandler
                     'knownIcon' => $icon,
                 ],
                 'text' => $text,
+                'wrapText' => true
             ],
         ];
     }
