@@ -75,7 +75,7 @@ class GoogleChatHandler extends AbstractProcessingHandler
                         ],
                         'sections' => [
                             'header' => 'Details',
-                            'collapsible' => false,
+                            'collapsible' => true,
                             'uncollapsibleWidgetsCount' => 1,
                             'widgets' => [
                                 $this->cardWidget(ucwords(Config::get('app.env') ?? '') . ' [Env]', 'BOOKMARK'),
