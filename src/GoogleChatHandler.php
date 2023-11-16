@@ -64,7 +64,7 @@ class GoogleChatHandler extends AbstractProcessingHandler
         //$recordArr['formatted'] = substr($recordArr['formatted'], 34);
         $timezone = (Config::get('logging.channels.google-chat.timezone') != null && !empty(Config::get('logging.channels.google-chat.timezone'))) ? Config::get('logging.channels.google-chat.timezone') : 'Asia/Kolkata';
         return [
-            'text' => $this->getNotifiableText($recordArr['level'] ?? ''),
+            'text' => $this->getNotifiableText($recordArr['level'] ?? ''). ' - ' . Config::get('app.name'),
             'cardsV2' => [
                 [
                     'cardId' => 'text-card-id',
